@@ -14,10 +14,16 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+import org.apache.accumulo.core.client.AccumuloException;
+import org.apache.accumulo.core.client.AccumuloSecurityException;
+import org.apache.accumulo.core.client.Connector;
+import org.apache.accumulo.core.client.TableNotFoundException;
 
 
 
@@ -34,11 +40,12 @@ public class Search extends JFrame {
 	private JPanel panelKeyCard;
 	private JPanel panelResults;
 	private JTextField textResults;
+	private JLabel lblWlcome;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	public static void searchMain(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -75,6 +82,7 @@ public class Search extends JFrame {
 		btnSelect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {				
 				contentPane.add(panelResults);
+				String course = bxcombo.getSelectedItem().toString();
 				//panelResults.setVisible(true);
 				textResults.setText(bxcombo.getSelectedItem().toString());
 				
@@ -115,8 +123,28 @@ public class Search extends JFrame {
 		btnSelect_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				contentPane.add(panelResults);
+				String keyword = txtKeyword.getText();
+				
+				ScanCommand scan = new ScanCommand();
+				scan.setConnection(LoginR.connection);
+				scan.setRow(keyword);
+				scan.setUser("root");
+				try {
+					scan.run();
+				} catch (TableNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (AccumuloException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (AccumuloSecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				String totalResult = scan.getOutPutResult();
+				
 				//panelResults.setVisible(true);
-				textResults.setText(txtKeyword.getText());
+				textResults.setText(totalResult);
 			}
 		});
 		btnSelect_1.setBounds(80, 82, 81, 23);
@@ -147,7 +175,7 @@ public class Search extends JFrame {
 						
 		JPanel panelRadio = new JPanel();
 		panelRadio.setBackground(Color.WHITE);
-		panelRadio.setBounds(40, 121, 120, 129);
+		panelRadio.setBounds(40, 147, 149, 129);
 		contentPane.add(panelRadio);
 		panelRadio.setLayout(null);
 		// keyword radio button section
@@ -162,7 +190,7 @@ public class Search extends JFrame {
 			}
 		});
 		rdbtnKeyword.setBackground(Color.WHITE);
-		rdbtnKeyword.setBounds(23, 69, 81, 27);
+		rdbtnKeyword.setBounds(23, 69, 94, 27);
 		rdbtnKeyword.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		panelRadio.add(rdbtnKeyword);
 		// topic radio button section
@@ -175,7 +203,7 @@ public class Search extends JFrame {
 	    	}
 	    });
 		rdbtnTopic.setBackground(Color.WHITE);
-		rdbtnTopic.setBounds(24, 19, 61, 27);
+		rdbtnTopic.setBounds(24, 19, 80, 27);
 		rdbtnTopic.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		panelRadio.add(rdbtnTopic);
 		group = new ButtonGroup();
@@ -188,6 +216,14 @@ public class Search extends JFrame {
 		panelCard.setBounds(271, 106, 344, 148);
 		contentPane.add(panelCard);
 		panelCard.setLayout(new CardLayout(0, 0));
+		
+		lblWlcome = new JLabel("");
+		lblWlcome.setBackground(Color.LIGHT_GRAY);
+		lblWlcome.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblWlcome.setBounds(10, 106, 156, 30);
+		String WelcomeUserName = LoginR.txtName.getText();
+		lblNewLabel.setText(" Welcome "+ WelcomeUserName +" !");	
+		contentPane.add(lblWlcome);
 		
 		panelResults = new JPanel();
 		panelResults.setBounds(0, 269, 642, 168);
@@ -208,5 +244,4 @@ public class Search extends JFrame {
 		
 		
 	}
-
 }

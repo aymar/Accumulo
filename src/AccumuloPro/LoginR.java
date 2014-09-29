@@ -24,16 +24,16 @@ import javax.swing.JProgressBar;
 import javax.swing.JPasswordField;
 import javax.swing.ImageIcon;
 
-//import org.apache.accumulo.core.client.Connector;
+import org.apache.accumulo.core.client.Connector;
 
 import java.awt.Color;
 
 public class LoginR extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtName;
+	static JTextField txtName;
 	private JPasswordField txtPassword;
-	//private Connector connection;
+	static Connector connection;
 
 	/**
 	 * Launch the application.
@@ -74,13 +74,14 @@ public class LoginR extends JFrame {
 					String username = txtName.getText();
 					String Password = new String(txtPassword.getPassword());
 					
-				//	AccumuloAuthR auth = new AccumuloAuthR();
-					//auth.setUser(username);
-					//auth.setPassword(Password);
-					//connection = auth.getConnection();					
+				    AccumuloAuth auth = new AccumuloAuth ();
+					auth.setUser(username);
+					auth.setPassword(Password);
+					connection = auth.getConnection();					
 					dispose();
-					Search j2 = new Search();
-					j2.setVisible(true);
+					//Search j2 = new Search();
+					Search.searchMain(null);				
+					//j2.setVisible(true);
 					
 				}catch(Exception e){
 					JOptionPane.showMessageDialog(null, "Invalid username or password");
