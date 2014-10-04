@@ -4,6 +4,11 @@ package AccumuloPro;
 import java.util.Map.Entry;
 //import java.util.Map;
 
+
+
+
+import javax.swing.JOptionPane;
+
 import org.apache.accumulo.core.data.Key;
 //import org.apache.accumulo.core.data.Mutation;
 import org.apache.accumulo.core.data.Range;
@@ -27,6 +32,9 @@ import org.apache.accumulo.core.client.Scanner;
 //import org.apache.hadoop.io.Text;
 //import org.apache.accumulo.core.client.BatchWriter;
 
+
+import org.apache.hadoop.io.Text;
+
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 
@@ -44,7 +52,7 @@ class ScanCommand extends AbstractCommand {
 private String table;
 
 //@Parameter(names = {"-r","--row"}, description = "Row to scan")
-private String row;
+private String row = null;
 
 //@Parameter(names = {"-a","--auths"}, description = "Comma separated list of scan authorizations")
 private String auths;
@@ -52,6 +60,8 @@ private String auths;
 private String user;
 
 private String outPut;
+
+private String topicText;
 
 public void setUser(String user) {
     this.user = user;
@@ -62,33 +72,50 @@ public void setRow(String rowId) {
 	this.row = rowId;
 }
 
+public void setColumn(String topic)
+{
+	this.topicText = topic;
+}
 public void setTable() {
 	this.table = "books";
 }
-public void run() throws TableNotFoundException, AccumuloException, AccumuloSecurityException {
+public void run(String Option) throws TableNotFoundException, AccumuloException, AccumuloSecurityException {
     String table = this.table;
     String row = this.row;
+    JOptionPane.showMessageDialog(null, row);
 	//System.out.println("Scanning " + table);
     Authorizations authorizations = null;
     if ((null != auths) && (!auths.equals("SCAN_ALL"))) {
         //System.out.println("Using scan auths " + auths);
+    	//JOptionPane.showMessageDialog(null, auths);
         authorizations = new Authorizations(auths.split(","));
     } else {
-        //System.out.println("Scanning with all user auths");
-        authorizations = connection.securityOperations().getUserAuthorizations(this.user);
+    	JOptionPane.showMessageDialog(null, "Scanning with all user auths" + this.user);
+    	//System.out.println("Scanning with all user auths");
+        authorizations = connection.securityOperations().getUserAuthorizations(this.user);        
     }
     Scanner scanner = connection.createScanner(table, authorizations);
-    if ((null != row) && (!row.equals("SCAN_ALL"))) {
+    if (null != row) {
         //System.out.println("Scanning for row " + row);
-        scanner.setRange(new Range(row));
+    	//scanner.setRange(new Range(row));  // row = textbook1
+    	//scanner.fetchColumnFamily()
+    	JOptionPane.showMessageDialog(null, Option);
+    	scanner.setRange(new Range(row));
     } else {
+    	JOptionPane.showMessageDialog(null, Option);
+    	Text topicVal =  new Text(this.topicText);
+		scanner.fetchColumnFamily(topicVal);	
       //  System.out.println("Scanning for all rows");
     }
     //System.out.println("Results ->");
-    String result = "";
+    String result = "<html><body><table border=1 cellpadding=1 width='100%'>";    
     for (Entry<Key,Value> entry : scanner) {
-         result += "  " + entry.getKey() + " " + entry.getValue() + "<br>";
+    	 result += "<tr><td colspan=2 align=left><b>" + entry.getKey().getRow() + "</b></td></tr>";
+    	 result += "<tr><td> Category: </td><td>" + entry.getKey().getColumnFamily() + "</td></tr>";
+    	 result += "<tr><td> AccessTo: </td><td>" + entry.getKey().getColumnQualifier() + "</td></tr>";
+    	 result += "<tr><td> Data: </td><td>" + entry.getValue() + "</td></tr>";
     }
+    result += "</table></body></html>";
     this.setOutPutResult(result);
 }
 
@@ -159,7 +186,7 @@ public static void main(String[] args)
             System.out.println("Running scan command");
             scanCommand.setConnection(javaExample.getConnection());
             scanCommand.setUser(javaExample.user);
-            scanCommand.run();
+          //  scanCommand.run();
         } /*else if (command.equals("grep")) {
             System.out.println("Running grep command");
             grepCommand.setConnection(javaExample.getConnection());

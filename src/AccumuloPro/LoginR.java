@@ -34,6 +34,7 @@ public class LoginR extends JFrame {
 	static JTextField txtName;
 	private JPasswordField txtPassword;
 	static Connector connection;
+	static String user;
 
 	/**
 	 * Launch the application.
@@ -58,7 +59,7 @@ public class LoginR extends JFrame {
 		setResizable(false);
 		setTitle("frame1");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 664, 491);
+		setBounds(100, 100, 664, 498);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -77,7 +78,9 @@ public class LoginR extends JFrame {
 				    AccumuloAuth auth = new AccumuloAuth ();
 					auth.setUser(username);
 					auth.setPassword(Password);
-					connection = auth.getConnection();					
+					LoginR.connection = auth.getConnection();
+					LoginR.user = username;
+					//connection = auth.getConnection();					
 					dispose();
 					//Search j2 = new Search();
 					Search.searchMain(null);				
@@ -89,7 +92,7 @@ public class LoginR extends JFrame {
 				
 			}
 		});
-		btnLogin.setBounds(325, 270, 134, 30);
+		btnLogin.setBounds(343, 270, 134, 30);
 		contentPane.add(btnLogin);
 		
 		txtName = new JTextField();
