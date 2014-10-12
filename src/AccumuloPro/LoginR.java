@@ -83,8 +83,13 @@ public class LoginR extends JFrame {
 					//connection = auth.getConnection();					
 					dispose();
 					//Search j2 = new Search();
-					Search.searchMain(null);				
-					//j2.setVisible(true);
+					//JOptionPane.showConfirmDialog(null, username + ", "+ Password);
+					if(username.equals("root") && Password.equals("secret")){
+						admin.adminmain(null);						
+					} else{
+						Search.searchMain(null);
+					}
+					
 					
 				}catch(Exception e){
 					JOptionPane.showMessageDialog(null, "Invalid username or password");

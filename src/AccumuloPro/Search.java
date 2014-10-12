@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
@@ -24,6 +25,7 @@ import org.apache.accumulo.core.client.AccumuloException;
 import org.apache.accumulo.core.client.AccumuloSecurityException;
 import org.apache.accumulo.core.client.Connector;
 import org.apache.accumulo.core.client.TableNotFoundException;
+
 import javax.swing.JTextPane;
 import javax.swing.JScrollBar;
 
@@ -35,14 +37,13 @@ public class Search extends JFrame {
 	private JTextField txtResults;
 	private JTextField txtKeyword;
 	private JRadioButton rdbtnKeyword,rdbtnTopic;
-	//private JPanel panelTopic, panelKeyword;
 	ButtonGroup group;
 	private JPanel panelCard;
 	private JPanel panelTopicCard;
 	private JPanel panelKeyCard;
 	private JLabel lblWlcome;
 	private JTextPane txtRlts;
-	//private JScrollBar scrollBar;
+	
 
 	/**
 	 * Launch the application.
@@ -89,7 +90,7 @@ public class Search extends JFrame {
 				
 				scan.setConnection(LoginR.connection);
 			//	scan.setRow(keyword);
-				JOptionPane.showMessageDialog(null, course);
+				//JOptionPane.showMessageDialog(null, course);
 				scan.setTable();
 				scan.setColumn(course);
 				scan.setUser(LoginR.user);
@@ -110,6 +111,10 @@ public class Search extends JFrame {
 				txtRlts.setContentType("text/html");
 				txtRlts.setText(totalResult);
 				contentPane.add(txtRlts);
+				JScrollPane scrollPane = new JScrollPane(txtRlts);
+				scrollPane.setVisible(true);
+				scrollPane.setBounds(0, 299, 642, 156);
+				contentPane.add(scrollPane);
 				
 				//panelResults.setVisible(true);
 				//textResults.setText(bxcombo.getSelectedItem().toString());
@@ -175,6 +180,12 @@ public class Search extends JFrame {
 				txtRlts.setContentType("text/html");
 				txtRlts.setText(totalResult);
 				contentPane.add(txtRlts);
+				
+				JScrollPane scrollPane = new JScrollPane(txtRlts);
+				scrollPane.setVisible(true);
+				scrollPane.setBounds(0, 299, 642, 156);
+				contentPane.add(scrollPane);
+				
 				//panelResults.setVisible(true);
 				//textResults.setText(totalResult);
 			}
@@ -260,6 +271,7 @@ public class Search extends JFrame {
 		txtRlts = new JTextPane();
 		txtRlts.setBackground(Color.LIGHT_GRAY);
 		txtRlts.setBounds(0, 299, 642, 156);
+		
 		//contentPane.add(txtRlts);
 			
 		JButton btnLogout = new JButton("Logout");

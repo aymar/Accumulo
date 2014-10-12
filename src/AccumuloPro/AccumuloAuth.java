@@ -7,21 +7,33 @@ import java.util.Map.Entry;
 
 
 
+
+
+
+
+
+
 import javax.swing.JOptionPane;
 
 import org.apache.accumulo.core.data.Key;
+import org.apache.accumulo.core.data.Mutation;
 //import org.apache.accumulo.core.data.Mutation;
 import org.apache.accumulo.core.data.Range;
 import org.apache.accumulo.core.data.Value;
 //import org.apache.accumulo.core.iterators.user.GrepIterator;
 import org.apache.accumulo.core.security.Authorizations;
+import org.apache.accumulo.core.security.ColumnVisibility;
 //import org.apache.accumulo.core.security.ColumnVisibility;
 import org.apache.accumulo.core.client.AccumuloException;
 import org.apache.accumulo.core.client.AccumuloSecurityException;
+import org.apache.accumulo.core.client.BatchWriter;
+import org.apache.accumulo.core.client.BatchWriterConfig;
 //import org.apache.accumulo.core.client.BatchWriter;
 //import org.apache.accumulo.core.client.BatchWriterConfig;
 import org.apache.accumulo.core.client.Connector;
 import org.apache.accumulo.core.client.Instance;
+import org.apache.accumulo.core.client.MutationsRejectedException;
+import org.apache.accumulo.core.client.TableExistsException;
 //import org.apache.accumulo.core.client.IteratorSetting;
 //import org.apache.accumulo.core.client.MutationsRejectedException;
 //import org.apache.accumulo.core.client.TableExistsException;
@@ -45,6 +57,66 @@ protected Connector connection = null;
 public void setConnection(Connector connection) {
     this.connection = connection;
 }
+}
+
+class CreateTableCommand extends AbstractCommand {
+    //@Parameter(names = {"-t","--table"}, description = "Table name to create", required = true)
+    private String table;
+    //private String Description;
+
+    public void setTable(String tableName){
+    	this.table = tableName;    	
+    }
+    public String getTable(){
+    	return this.table;
+    }
+    /*public void setDescription(String Des){
+    	this.Description = Des;    	
+    }*/
+    public void run() throws AccumuloException, AccumuloSecurityException, TableExistsException {
+       // System.out.println("Creating table " + table);
+        if (connection.tableOperations().exists(this.table)) {
+            throw new RuntimeException("Table " + this.table + " already exists");
+        } else {
+            connection.tableOperations().create(this.table);
+            System.out.println("Table created");
+        }
+    }
+}
+
+class InsertRowCommand extends AbstractCommand {
+    //@Parameter(names = {"-t","--table"}, description = "Table to scan", required = true)
+    //private String table;
+
+    //@Parameter(names = {"-r","--rowid"}, description = "Row Id to insert", required = true)
+   // private String rowId;
+
+    //@Parameter(names = {"-cf","--columnFamily"}, description = "Column Family to insert", required = true)
+    //private String cf;
+
+    //@Parameter(names = {"-cq","--columnQualifier"}, description = "Column Qualifier to insert", required = true)
+   // private String cq;
+
+   // @Parameter(names = {"-val","--value"}, description = "Value to insert", required = true)
+    //private String val;
+
+    //@Parameter(names = {"-ts","--timestamp"}, description = "Timestamp to use on row insert")
+    //private long timestamp;
+
+    //@Parameter(names = {"-a","--auths"}, description = "ColumnVisiblity expression to insert with data")
+    //private String auths;
+    
+    
+
+    public void run(String tableName,String rowId,String colFamily,String colQualifier,String auths,String val ) throws TableNotFoundException, MutationsRejectedException {
+        //System.out.println("Writing mutation for " + rowId);
+        BatchWriter bw = connection.createBatchWriter(tableName, new BatchWriterConfig());
+
+        Mutation m = new Mutation(new Text(rowId));
+        m.put(new Text(colFamily), new Text(colQualifier), new ColumnVisibility(auths), new Value(val.getBytes()));
+        bw.addMutation(m);
+        bw.close();
+    }
 }
 
 class ScanCommand extends AbstractCommand {
@@ -82,7 +154,7 @@ public void setTable() {
 public void run(String Option) throws TableNotFoundException, AccumuloException, AccumuloSecurityException {
     String table = this.table;
     String row = this.row;
-    JOptionPane.showMessageDialog(null, row);
+    //JOptionPane.showMessageDialog(null, row);
 	//System.out.println("Scanning " + table);
     Authorizations authorizations = null;
     if ((null != auths) && (!auths.equals("SCAN_ALL"))) {
@@ -90,7 +162,7 @@ public void run(String Option) throws TableNotFoundException, AccumuloException,
     	//JOptionPane.showMessageDialog(null, auths);
         authorizations = new Authorizations(auths.split(","));
     } else {
-    	JOptionPane.showMessageDialog(null, "Scanning with all user auths" + this.user);
+    	//JOptionPane.showMessageDialog(null, "Scanning with all user auths" + this.user);
     	//System.out.println("Scanning with all user auths");
         authorizations = connection.securityOperations().getUserAuthorizations(this.user);        
     }
@@ -99,10 +171,10 @@ public void run(String Option) throws TableNotFoundException, AccumuloException,
         //System.out.println("Scanning for row " + row);
     	//scanner.setRange(new Range(row));  // row = textbook1
     	//scanner.fetchColumnFamily()
-    	JOptionPane.showMessageDialog(null, Option);
+    	//JOptionPane.showMessageDialog(null, Option);
     	scanner.setRange(new Range(row));
     } else {
-    	JOptionPane.showMessageDialog(null, Option);
+    	//JOptionPane.showMessageDialog(null, Option);
     	Text topicVal =  new Text(this.topicText);
 		scanner.fetchColumnFamily(topicVal);	
       //  System.out.println("Scanning for all rows");
