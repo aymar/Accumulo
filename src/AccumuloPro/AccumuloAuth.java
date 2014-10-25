@@ -182,8 +182,13 @@ public void run(String Option) throws TableNotFoundException, AccumuloException,
     //System.out.println("Results ->");
     String result = "<html><body><table border=1 cellpadding=1 width='100%'>";    
     for (Entry<Key,Value> entry : scanner) {
-    	 result += "<tr><td colspan=2 align=left><b>" + entry.getKey().getRow() + "</b></td></tr>";
-    	 result += "<tr><td> Category: </td><td>" + entry.getKey().getColumnFamily() + "</td></tr>";
+    	 if (Option == "topic") {
+    		 result += "<tr><td colspan=2 align=left><b>" + entry.getKey().getColumnFamily() + "</b></td></tr>";
+    		 result += "<tr><td> Text Book: </td><td>" + entry.getKey().getRow() + "</td></tr>";
+    	 } else {
+    		 result += "<tr><td colspan=2 align=left><b>" + entry.getKey().getRow() + "</b></td></tr>";
+    		 result += "<tr><td> Category: </td><td>" + entry.getKey().getColumnFamily() + "</td></tr>";
+    	 }    	 
     	 result += "<tr><td> AccessTo: </td><td>" + entry.getKey().getColumnQualifier() + "</td></tr>";
     	 result += "<tr><td> Data: </td><td>" + entry.getValue() + "</td></tr>";
     }

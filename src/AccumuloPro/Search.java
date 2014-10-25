@@ -35,7 +35,7 @@ public class Search extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtResults;
-	private JTextField txtKeyword;
+	//private JTextField txtKeyword;
 	private JRadioButton rdbtnKeyword,rdbtnTopic;
 	ButtonGroup group;
 	private JPanel panelCard;
@@ -43,6 +43,7 @@ public class Search extends JFrame {
 	private JPanel panelKeyCard;
 	private JLabel lblWlcome;
 	private JTextPane txtRlts;
+	private JScrollPane scrollPane;
 	
 
 	/**
@@ -110,10 +111,11 @@ public class Search extends JFrame {
 				
 				txtRlts.setContentType("text/html");
 				txtRlts.setText(totalResult);
+				txtRlts.setCaretPosition(0);
 				contentPane.add(txtRlts);
-				JScrollPane scrollPane = new JScrollPane(txtRlts);
+				 scrollPane = new JScrollPane(txtRlts);
 				scrollPane.setVisible(true);
-				scrollPane.setBounds(0, 299, 642, 156);
+				scrollPane.setBounds(0, 299, 642, 150);
 				contentPane.add(scrollPane);
 				
 				//panelResults.setVisible(true);
@@ -130,9 +132,9 @@ public class Search extends JFrame {
 		lblNewLabel_1.setIcon(new ImageIcon(Search.class.getResource("/images/search.png")));
 	} // end of search topic
 	public void searchKeyword()
-	{		
-		
+	{			
 		//panelKeyCard = new JPanel();
+		//contentPane = new JPanel();
 		panelKeyCard.setBackground(Color.WHITE);
 		panelCard.add(panelKeyCard, "name_339584614638264");
 		panelKeyCard.setLayout(null);
@@ -147,7 +149,8 @@ public class Search extends JFrame {
 		panelKeyCard.add(lblKeyword);
 		lblKeyword.setFont(new Font("Tahoma", Font.PLAIN, 17));
 		
-		txtKeyword = new JTextField();
+		final JTextField txtKeyword = new JTextField();
+		txtKeyword.setText("");
 		txtKeyword.setBounds(161, 26, 122, 25);
 		panelKeyCard.add(txtKeyword);
 		txtKeyword.setColumns(10);
@@ -157,7 +160,6 @@ public class Search extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				String keyword = txtKeyword.getText();
-				
 				ScanCommand scan = new ScanCommand();
 				//JOptionPane.showMessageDialog(null, LoginR.connection);
 				scan.setConnection(LoginR.connection);
@@ -179,11 +181,13 @@ public class Search extends JFrame {
 				
 				txtRlts.setContentType("text/html");
 				txtRlts.setText(totalResult);
+				txtRlts.setCaretPosition(0);
 				contentPane.add(txtRlts);
 				
-				JScrollPane scrollPane = new JScrollPane(txtRlts);
+				scrollPane = new JScrollPane(txtRlts);
+				//scrollPane.add(txtRlts);
 				scrollPane.setVisible(true);
-				scrollPane.setBounds(0, 299, 642, 156);
+				scrollPane.setBounds(0, 299, 642, 150);
 				contentPane.add(scrollPane);
 				
 				//panelResults.setVisible(true);
@@ -210,6 +214,8 @@ public class Search extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		//scrollPane = new JScrollPane();
+		
 		// header section
 		JLabel lblNewLabel = new JLabel("New label");
 		lblNewLabel.setIcon(new ImageIcon(Search.class.getResource("/images/top.png")));
