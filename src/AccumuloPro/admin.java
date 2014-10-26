@@ -17,6 +17,8 @@ import java.awt.Font;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 
 import java.awt.CardLayout;
@@ -32,6 +34,7 @@ import org.apache.accumulo.core.client.TableNotFoundException;
 import java.awt.SystemColor;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.border.LineBorder;
 
 public class admin extends JFrame {
 
@@ -66,7 +69,7 @@ public class admin extends JFrame {
 	public admin() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 726, 507);
+		setBounds(100, 100, 697, 507);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -121,7 +124,7 @@ public class admin extends JFrame {
 		
 		JLabel lblTop = new JLabel("");
 		lblTop.setIcon(new ImageIcon(admin.class.getResource("/images/top.png")));
-		lblTop.setBounds(0, 0, 722, 88);
+		lblTop.setBounds(0, 0, 694, 88);
 		contentPane.add(lblTop);
 		
 		JPanel displayPanel = new JPanel();
@@ -130,19 +133,20 @@ public class admin extends JFrame {
 		displayPanel.setLayout(new CardLayout(0, 0));
 		
 		createTablePane = new JPanel();
+		createTablePane.setBorder(new LineBorder(new Color(0, 0, 0)));
 		createTablePane.setLayout(null);
-		createTablePane.setBackground(new Color(153, 153, 255));
+		createTablePane.setBackground(new Color(192, 192, 192));
 		displayPanel.add(createTablePane, "name_62688577061866");
 		
 		final JTextField txtTableName = new JTextField();
 		txtTableName.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		txtTableName.setColumns(10);
-		txtTableName.setBounds(200, 23, 167, 20);
+		txtTableName.setBounds(212, 50, 167, 20);
 		createTablePane.add(txtTableName);
 		
 		JLabel label_6 = new JLabel("Table Name");
-		label_6.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		label_6.setBounds(104, 23, 86, 20);
+		label_6.setFont(new Font("Tahoma", Font.BOLD, 15));
+		label_6.setBounds(106, 50, 96, 20);
 		createTablePane.add(label_6);
 		
 		JButton btnCreate = new JButton("Create");
@@ -164,22 +168,24 @@ public class admin extends JFrame {
 					e1.printStackTrace();
 				} catch (TableExistsException e1) {
 					JOptionPane.showMessageDialog(null, "Table already exists");
+				} catch (RuntimeException e1) {
+					JOptionPane.showMessageDialog(null, "Table already exists");
 				}
 				
 			}
 		});
 		btnCreate.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnCreate.setBounds(161, 65, 89, 23);
+		btnCreate.setBounds(173, 92, 89, 23);
 		createTablePane.add(btnCreate);
 		
 		insertDataPane = new JPanel();
 		insertDataPane.setLayout(null);
-		insertDataPane.setBackground(new Color(153, 153, 255));
+		insertDataPane.setBackground(new Color(192, 192, 192));
 		displayPanel.add(insertDataPane, "name_62713028447079");
 		
 		JLabel lblTableName = new JLabel("Table Name");
-		lblTableName.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblTableName.setBounds(10, 11, 76, 14);
+		lblTableName.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblTableName.setBounds(10, 11, 86, 14);
 		insertDataPane.add(lblTableName);
 		
 		final JTextField txtTblName = new JTextField();
@@ -188,7 +194,7 @@ public class admin extends JFrame {
 		insertDataPane.add(txtTblName);
 		
 		JLabel label_1 = new JLabel("Value");
-		label_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		label_1.setFont(new Font("Tahoma", Font.BOLD, 13));
 		label_1.setBounds(289, 11, 46, 14);
 		insertDataPane.add(label_1);
 		
@@ -198,7 +204,7 @@ public class admin extends JFrame {
 		insertDataPane.add(txtValue);
 		
 		JLabel label_2 = new JLabel("Row Id");
-		label_2.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		label_2.setFont(new Font("Tahoma", Font.BOLD, 13));
 		label_2.setBounds(132, 11, 46, 14);
 		insertDataPane.add(label_2);
 		
@@ -208,7 +214,7 @@ public class admin extends JFrame {
 		insertDataPane.add(txtRowId);
 		
 		JLabel label_3 = new JLabel("Col Family");
-		label_3.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		label_3.setFont(new Font("Tahoma", Font.BOLD, 13));
 		label_3.setBounds(10, 66, 76, 14);
 		insertDataPane.add(label_3);
 		
@@ -218,7 +224,7 @@ public class admin extends JFrame {
 		insertDataPane.add(txtColFamily);
 		
 		JLabel label_4 = new JLabel("Col Qualifier");
-		label_4.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		label_4.setFont(new Font("Tahoma", Font.BOLD, 13));
 		label_4.setBounds(122, 67, 86, 14);
 		insertDataPane.add(label_4);
 		
@@ -228,7 +234,7 @@ public class admin extends JFrame {
 		insertDataPane.add(txtColQual);
 		
 		JLabel lblVisibilty = new JLabel("Visibilty");
-		lblVisibilty.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblVisibilty.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblVisibilty.setBounds(10, 112, 76, 14);
 		insertDataPane.add(lblVisibilty);
 		
@@ -264,22 +270,63 @@ public class admin extends JFrame {
 		
 		searchPane = new JPanel();
 		searchPane.setLayout(null);
-		searchPane.setBackground(new Color(153, 153, 255));
+		searchPane.setBackground(Color.LIGHT_GRAY);
 		displayPanel.add(searchPane, "name_62757800485557");
 		
-		JTextField txtSearch = new JTextField();
+		final JTextField txtSearch = new JTextField();
 		txtSearch.setColumns(10);
-		txtSearch.setBounds(102, 44, 197, 20);
+		txtSearch.setBounds(150, 50, 197, 20);
 		searchPane.add(txtSearch);
 		
+		final JTextPane txtRlts = new JTextPane();
+		txtRlts.setBackground(Color.LIGHT_GRAY);
+		txtRlts.setBounds(0, 299, 642, 156);
+		
 		JLabel label_5 = new JLabel("Search");
-		label_5.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		label_5.setBounds(38, 22, 65, 14);
+		label_5.setFont(new Font("Tahoma", Font.BOLD, 14));
+		label_5.setBounds(86, 28, 65, 14);
 		searchPane.add(label_5);
 		
 		JButton btnSubmit = new JButton("Submit");
+		btnSubmit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String keyword = txtSearch.getText();
+				ScanCommand scan = new ScanCommand();
+				//JOptionPane.showMessageDialog(null, LoginR.connection);
+				scan.setConnection(LoginR.connection);
+				scan.setRow(keyword);
+				scan.setUser(LoginR.user);
+				try {
+					scan.run("keyword");
+				} catch (TableNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (AccumuloException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (AccumuloSecurityException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				String totalResult = scan.getOutPutResult();
+				
+				txtRlts.setContentType("text/html");
+				txtRlts.setText(totalResult);
+				txtRlts.setCaretPosition(0);
+				contentPane.add(txtRlts);
+				
+				JScrollPane scrollPane = new JScrollPane(txtRlts);
+				
+				//scrollPane.add(txtRlts);
+				scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+				scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+				scrollPane.setVisible(true);
+				scrollPane.setBounds(0, 320, 692, 162);
+				contentPane.add(scrollPane);			
+			}
+		});
 		btnSubmit.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnSubmit.setBounds(160, 92, 89, 23);
+		btnSubmit.setBounds(208, 98, 89, 23);
 		searchPane.add(btnSubmit);
 		
 		JButton btnLogout = new JButton("Logout");
@@ -290,7 +337,7 @@ public class admin extends JFrame {
 			}
 		});
 		btnLogout.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnLogout.setBounds(605, 99, 105, 30);
+		btnLogout.setBounds(576, 97, 105, 30);
 		contentPane.add(btnLogout);
 		
 		lblWlcome = new JLabel("");

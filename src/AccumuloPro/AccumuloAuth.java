@@ -76,10 +76,11 @@ class CreateTableCommand extends AbstractCommand {
     public void run() throws AccumuloException, AccumuloSecurityException, TableExistsException {
        // System.out.println("Creating table " + table);
         if (connection.tableOperations().exists(this.table)) {
+        	//JOptionPane.showMessageDialog(null, "Table " + this.table + " already exists");
             throw new RuntimeException("Table " + this.table + " already exists");
         } else {
             connection.tableOperations().create(this.table);
-            System.out.println("Table created");
+            //System.out.println("Table created");
         }
     }
 }

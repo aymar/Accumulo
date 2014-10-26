@@ -27,6 +27,7 @@ import javax.swing.ImageIcon;
 import org.apache.accumulo.core.client.Connector;
 
 import java.awt.Color;
+import java.awt.Window.Type;
 
 public class LoginR extends JFrame {
 
@@ -56,10 +57,11 @@ public class LoginR extends JFrame {
 	 * Create the frame.
 	 */
 	public LoginR() {
+		setFont(new Font("Dialog", Font.BOLD, 12));
 		setResizable(false);
-		setTitle("frame1");
+		setTitle("Online Book Store");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 664, 498);
+		setBounds(100, 100, 698, 498);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -106,13 +108,13 @@ public class LoginR extends JFrame {
 		txtName.setColumns(10);
 		
 		JLabel lblName_1 = new JLabel("Name");
-		lblName_1.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblName_1.setFont(new Font("Tahoma", Font.BOLD, 15));
 		lblName_1.setBounds(302, 157, 59, 36);
 		contentPane.add(lblName_1);
 		
 		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblPassword.setBounds(302, 208, 71, 25);
+		lblPassword.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lblPassword.setBounds(302, 204, 82, 25);
 		contentPane.add(lblPassword);
 		
 		txtPassword = new JPasswordField();
@@ -126,7 +128,7 @@ public class LoginR extends JFrame {
 		
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setIcon(new ImageIcon(LoginR.class.getResource("/images/top.png")));
-		lblNewLabel_1.setBounds(0, 0, 658, 114);
+		lblNewLabel_1.setBounds(0, 0, 694, 88);
 		contentPane.add(lblNewLabel_1);
 	}
 }

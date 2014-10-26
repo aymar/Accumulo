@@ -113,9 +113,11 @@ public class Search extends JFrame {
 				txtRlts.setText(totalResult);
 				txtRlts.setCaretPosition(0);
 				contentPane.add(txtRlts);
-				 scrollPane = new JScrollPane(txtRlts);
+				scrollPane = new JScrollPane(txtRlts);
+				scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+				scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 				scrollPane.setVisible(true);
-				scrollPane.setBounds(0, 299, 642, 150);
+				scrollPane.setBounds(0, 299, 700, 160);
 				contentPane.add(scrollPane);
 				
 				//panelResults.setVisible(true);
@@ -185,9 +187,12 @@ public class Search extends JFrame {
 				contentPane.add(txtRlts);
 				
 				scrollPane = new JScrollPane(txtRlts);
+				
 				//scrollPane.add(txtRlts);
+				scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+				scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 				scrollPane.setVisible(true);
-				scrollPane.setBounds(0, 299, 642, 150);
+				scrollPane.setBounds(0, 299, 700, 160);
 				contentPane.add(scrollPane);
 				
 				//panelResults.setVisible(true);
@@ -208,7 +213,7 @@ public class Search extends JFrame {
 		panelKeyCard = new JPanel();
 		panelTopicCard = new JPanel();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 658, 494);
+		setBounds(100, 100, 704, 494);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -219,7 +224,7 @@ public class Search extends JFrame {
 		// header section
 		JLabel lblNewLabel = new JLabel("New label");
 		lblNewLabel.setIcon(new ImageIcon(Search.class.getResource("/images/top.png")));
-		lblNewLabel.setBounds(0, 0, 642, 95);
+		lblNewLabel.setBounds(0, 0, 700, 88);
 		contentPane.add(lblNewLabel);
 						
 		JPanel panelRadio = new JPanel();
