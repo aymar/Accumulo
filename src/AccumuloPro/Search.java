@@ -112,13 +112,14 @@ public class Search extends JFrame {
 				txtRlts.setContentType("text/html");
 				txtRlts.setText(totalResult);
 				txtRlts.setCaretPosition(0);
-				contentPane.add(txtRlts);
-				scrollPane = new JScrollPane(txtRlts);
-				scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-				scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 				scrollPane.setVisible(true);
-				scrollPane.setBounds(0, 299, 700, 160);
-				contentPane.add(scrollPane);
+				//contentPane.add(txtRlts);
+			//	scrollPane = new JScrollPane(txtRlts);
+			//	scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+			//	scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			//	scrollPane.setVisible(true);
+			//	scrollPane.setBounds(0, 299, 700, 160);
+			//	contentPane.add(scrollPane);
 				
 				//panelResults.setVisible(true);
 				//textResults.setText(bxcombo.getSelectedItem().toString());
@@ -184,17 +185,17 @@ public class Search extends JFrame {
 				txtRlts.setContentType("text/html");
 				txtRlts.setText(totalResult);
 				txtRlts.setCaretPosition(0);
-				contentPane.add(txtRlts);
+				scrollPane.setVisible(true);
+				//contentPane.add(txtRlts);
 				
-				scrollPane = new JScrollPane(txtRlts);
+				//scrollPane = new JScrollPane(txtRlts);
 				
 				//scrollPane.add(txtRlts);
-				scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-				scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-				scrollPane.setVisible(true);
-				scrollPane.setBounds(0, 299, 700, 160);
-				contentPane.add(scrollPane);
-				
+				//scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+				//scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+				//scrollPane.setVisible(true);
+				//scrollPane.setBounds(0, 299, 700, 160);
+				//contentPane.add(scrollPane);
 				//panelResults.setVisible(true);
 				//textResults.setText(totalResult);
 			}
@@ -282,6 +283,11 @@ public class Search extends JFrame {
 		txtRlts = new JTextPane();
 		txtRlts.setBackground(Color.LIGHT_GRAY);
 		txtRlts.setBounds(0, 299, 642, 156);
+		
+		scrollPane = new JScrollPane(txtRlts);
+		scrollPane.setVisible(false);
+		scrollPane.setBounds(0, 299, 700, 160);
+		contentPane.add(scrollPane);
 		
 		//contentPane.add(txtRlts);
 			
