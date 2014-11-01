@@ -1,37 +1,24 @@
 package AccumuloPro;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.Panel;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-
 import java.awt.Color;
-
 import javax.swing.JButton;
-
 import java.awt.Font;
-
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
-import javax.swing.SwingConstants;
-
 import java.awt.CardLayout;
-
 import javax.swing.JTextField;
-
 import org.apache.accumulo.core.client.AccumuloException;
 import org.apache.accumulo.core.client.AccumuloSecurityException;
 import org.apache.accumulo.core.client.MutationsRejectedException;
 import org.apache.accumulo.core.client.TableExistsException;
 import org.apache.accumulo.core.client.TableNotFoundException;
-
-import java.awt.SystemColor;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.border.LineBorder;
@@ -43,10 +30,8 @@ public class admin extends JFrame {
 	private JPanel createTablePane;
 	private JPanel insertDataPane;
 	private JLabel lblWlcome;
-	
-	
-	
-	
+	private JScrollPane scrollPane;
+
 	/**
 	 * Launch the application.
 	 */
@@ -258,16 +243,12 @@ public class admin extends JFrame {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				
-				
 			}
 		});
 		btnInsert.setFont(new Font("Tahoma", Font.BOLD, 15));
 		btnInsert.setBounds(153, 136, 89, 23);
 		insertDataPane.add(btnInsert);
-		
-		
-		
+
 		searchPane = new JPanel();
 		searchPane.setLayout(null);
 		searchPane.setBackground(Color.LIGHT_GRAY);
@@ -281,7 +262,12 @@ public class admin extends JFrame {
 		final JTextPane txtRlts = new JTextPane();
 		txtRlts.setBackground(Color.LIGHT_GRAY);
 		txtRlts.setBounds(0, 299, 642, 156);
-		
+
+		scrollPane = new JScrollPane(txtRlts);
+		scrollPane.setVisible(false);
+		scrollPane.setBounds(0, 320, 692, 162);
+		contentPane.add(scrollPane);
+
 		JLabel label_5 = new JLabel("Search");
 		label_5.setFont(new Font("Tahoma", Font.BOLD, 14));
 		label_5.setBounds(86, 28, 65, 14);
@@ -292,7 +278,6 @@ public class admin extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				String keyword = txtSearch.getText();
 				ScanCommand scan = new ScanCommand();
-				//JOptionPane.showMessageDialog(null, LoginR.connection);
 				scan.setConnection(LoginR.connection);
 				scan.setRow(keyword);
 				scan.setUser(LoginR.user);
@@ -308,21 +293,11 @@ public class admin extends JFrame {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				String totalResult = scan.getOutPutResult();
-				
+
 				txtRlts.setContentType("text/html");
-				txtRlts.setText(totalResult);
+				txtRlts.setText(scan.getOutPutResult());
 				txtRlts.setCaretPosition(0);
-				contentPane.add(txtRlts);
-				
-				JScrollPane scrollPane = new JScrollPane(txtRlts);
-				
-				//scrollPane.add(txtRlts);
-				scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-				scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-				scrollPane.setVisible(true);
-				scrollPane.setBounds(0, 320, 692, 162);
-				contentPane.add(scrollPane);			
+				scrollPane.setVisible(true);		
 			}
 		});
 		btnSubmit.setFont(new Font("Tahoma", Font.BOLD, 15));

@@ -7,7 +7,6 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,31 +19,25 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-
 import org.apache.accumulo.core.client.AccumuloException;
 import org.apache.accumulo.core.client.AccumuloSecurityException;
 import org.apache.accumulo.core.client.Connector;
 import org.apache.accumulo.core.client.TableNotFoundException;
-
 import javax.swing.JTextPane;
 import javax.swing.JScrollBar;
-
 
 
 public class Search extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtResults;
-	//private JTextField txtKeyword;
-	private JRadioButton rdbtnKeyword,rdbtnTopic;
-	ButtonGroup group;
+	private JRadioButton rdbtnKeyword, rdbtnTopic;
 	private JPanel panelCard;
 	private JPanel panelTopicCard;
 	private JPanel panelKeyCard;
 	private JLabel lblWlcome;
 	private JTextPane txtRlts;
 	private JScrollPane scrollPane;
-	
+	ButtonGroup group;	
 
 	/**
 	 * Launch the application.
@@ -63,8 +56,6 @@ public class Search extends JFrame {
 	}
 	public void searchTopic()
 	{
-		
-		//panelTopicCard = new JPanel();
 		panelTopicCard.setBackground(Color.WHITE);
 		panelCard.add(panelTopicCard, "name_339578849588021");
 		panelTopicCard.setLayout(null);
@@ -73,25 +64,20 @@ public class Search extends JFrame {
 		lblSelectTopic.setBounds(59, 10, 114, 25);
 		panelTopicCard.add(lblSelectTopic);
 		lblSelectTopic.setFont(new Font("Tahoma", Font.PLAIN, 17));
-		String[] categories = {"network","science","computer","other"};
+		String[] categories = {"network","science","computer"};
 		final JComboBox bxcombo = new JComboBox(categories);
 		bxcombo.setBounds(183, 11, 113, 25);
 		panelTopicCard.add(bxcombo);
 		bxcombo.setBackground(new Color(222, 184, 135));
 		bxcombo.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		
 		JButton btnSelect = new JButton("Select");
 		btnSelect.setBounds(59, 82, 82, 23);
 		panelTopicCard.add(btnSelect);
 		btnSelect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {				
-				//contentPane.add(panelResults);
 				String course = bxcombo.getSelectedItem().toString();
 				ScanCommand scan = new ScanCommand();
-				
 				scan.setConnection(LoginR.connection);
-			//	scan.setRow(keyword);
-				//JOptionPane.showMessageDialog(null, course);
 				scan.setTable();
 				scan.setColumn(course);
 				scan.setUser(LoginR.user);
@@ -107,37 +93,20 @@ public class Search extends JFrame {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				String totalResult = scan.getOutPutResult();
-				
-				txtRlts.setContentType("text/html");
-				txtRlts.setText(totalResult);
-				txtRlts.setCaretPosition(0);
-				scrollPane.setVisible(true);
-				//contentPane.add(txtRlts);
-			//	scrollPane = new JScrollPane(txtRlts);
-			//	scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-			//	scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-			//	scrollPane.setVisible(true);
-			//	scrollPane.setBounds(0, 299, 700, 160);
-			//	contentPane.add(scrollPane);
-				
-				//panelResults.setVisible(true);
-				//textResults.setText(bxcombo.getSelectedItem().toString());
-				
+
+				displayResults(scan.getOutPutResult());
 			}
 		});
 		btnSelect.setFont(new Font("Tahoma", Font.BOLD, 14));
-		
-		
+
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setBounds(11, 10, 38, 31);
 		panelTopicCard.add(lblNewLabel_1);
 		lblNewLabel_1.setIcon(new ImageIcon(Search.class.getResource("/images/search.png")));
 	} // end of search topic
+	
 	public void searchKeyword()
 	{			
-		//panelKeyCard = new JPanel();
-		//contentPane = new JPanel();
 		panelKeyCard.setBackground(Color.WHITE);
 		panelCard.add(panelKeyCard, "name_339584614638264");
 		panelKeyCard.setLayout(null);
@@ -160,11 +129,9 @@ public class Search extends JFrame {
 		
 		JButton btnSelect_1 = new JButton("Select");
 		btnSelect_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
+			public void actionPerformed(ActionEvent arg0) {				
 				String keyword = txtKeyword.getText();
-				ScanCommand scan = new ScanCommand();
-				//JOptionPane.showMessageDialog(null, LoginR.connection);
+				ScanCommand scan = new ScanCommand();			
 				scan.setConnection(LoginR.connection);
 				scan.setRow(keyword);
 				scan.setUser(LoginR.user);
@@ -180,32 +147,22 @@ public class Search extends JFrame {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				String totalResult = scan.getOutPutResult();
-				
-				txtRlts.setContentType("text/html");
-				txtRlts.setText(totalResult);
-				txtRlts.setCaretPosition(0);
-				scrollPane.setVisible(true);
-				//contentPane.add(txtRlts);
-				
-				//scrollPane = new JScrollPane(txtRlts);
-				
-				//scrollPane.add(txtRlts);
-				//scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-				//scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-				//scrollPane.setVisible(true);
-				//scrollPane.setBounds(0, 299, 700, 160);
-				//contentPane.add(scrollPane);
-				//panelResults.setVisible(true);
-				//textResults.setText(totalResult);
+
+				displayResults(scan.getOutPutResult());
 			}
 		});
 		btnSelect_1.setBounds(80, 82, 81, 23);
 		panelKeyCard.add(btnSelect_1);
 		btnSelect_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		
-		
 	} // end of search keyword
+
+	public void displayResults(String result)
+	{
+		txtRlts.setContentType("text/html");
+		txtRlts.setText(result);
+		txtRlts.setCaretPosition(0);
+		scrollPane.setVisible(true);
+	}
 
 	/**
 	 * Create the frame.
@@ -220,9 +177,7 @@ public class Search extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		//scrollPane = new JScrollPane();
 		
-		// header section
 		JLabel lblNewLabel = new JLabel("New label");
 		lblNewLabel.setIcon(new ImageIcon(Search.class.getResource("/images/top.png")));
 		lblNewLabel.setBounds(0, 0, 700, 88);
@@ -233,15 +188,13 @@ public class Search extends JFrame {
 		panelRadio.setBounds(81, 158, 149, 112);
 		contentPane.add(panelRadio);
 		panelRadio.setLayout(null);
-		// keyword radio button section
+		
 		rdbtnKeyword = new JRadioButton("Keyword");
-		//searchKeyword();
 		rdbtnKeyword.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				searchKeyword();
 				panelKeyCard.setVisible(true);
 				panelTopicCard.setVisible(false);
-				//contentPane.add(panelResults);
 			}
 		});
 		rdbtnKeyword.setBackground(Color.WHITE);
@@ -289,8 +242,6 @@ public class Search extends JFrame {
 		scrollPane.setBounds(0, 299, 700, 160);
 		contentPane.add(scrollPane);
 		
-		//contentPane.add(txtRlts);
-			
 		JButton btnLogout = new JButton("Logout");
 		btnLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -300,7 +251,6 @@ public class Search extends JFrame {
 		});
 		btnLogout.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnLogout.setBounds(514, 106, 105, 30);
-		contentPane.add(btnLogout);
-		
+		contentPane.add(btnLogout);		
 	}
 }
